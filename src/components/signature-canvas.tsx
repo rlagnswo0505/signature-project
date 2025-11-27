@@ -24,16 +24,16 @@ export function SignatureCanvas({ label, onSignatureChange }: SignatureCanvasPro
     // 배경색 설정
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
+
     // Placeholder 텍스트 그리기
     if (!isSigned) {
       ctx.fillStyle = '#d1d5db';
-      ctx.font = '14px sans-serif';
+      ctx.font = 'bold 30px sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText('전자서명', canvas.width / 2, canvas.height / 2);
     }
-    
+
     ctx.strokeStyle = '#1a1a1a';
     ctx.lineWidth = 2;
     ctx.lineCap = 'round';
