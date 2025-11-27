@@ -24,20 +24,37 @@ export function SignatureCanvas({ label, onSignatureChange }: SignatureCanvasPro
     // 배경색 설정
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Placeholder 텍스트 그리기
+    if (!isSigned) {
+      ctx.fillStyle = '#d1d5db';
+      ctx.font = '14px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('전자서명', canvas.width / 2, canvas.height / 2);
+    }
+    
     ctx.strokeStyle = '#1a1a1a';
     ctx.lineWidth = 2;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-  }, []);
+  }, [isSigned]);
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    setIsDrawing(true);
-    const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
+    // placeholder 지우기
+    if (!isSigned) {
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    setIsDrawing(true);
+    const rect = canvas.getBoundingClientRect();
 
     const pos = 'touches' in e ? e.touches[0] : (e as React.MouseEvent);
     ctx.beginPath();
