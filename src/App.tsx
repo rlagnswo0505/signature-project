@@ -19,6 +19,13 @@ function App() {
   };
 
   const handleCapture = async (element: HTMLDivElement) => {
+    // 확인 알림창
+    const confirmed = window.confirm('본인이 직접 신청하고 전자서명 하셨나요?');
+    
+    if (!confirmed) {
+      return;
+    }
+
     try {
       const canvas = await html2canvas(element, {
         backgroundColor: '#ffffff',
