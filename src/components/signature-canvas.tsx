@@ -103,24 +103,30 @@ export function SignatureCanvas({ label, onSignatureChange }: SignatureCanvasPro
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <label className="text-xs font-semibold" style={{ color: '#1f2937' }}>{label}</label>
-        {isSigned && <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ backgroundColor: '#dcfce7', color: '#15803d' }}>완료</span>}
+        <label className="text-xs font-semibold" style={{ color: '#1f2937' }}>
+          {label}
+        </label>
+        {isSigned && (
+          <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ backgroundColor: '#dcfce7', color: '#15803d' }}>
+            완료
+          </span>
+        )}
       </div>
-      <canvas 
-        ref={canvasRef} 
-        onMouseDown={startDrawing} 
-        onMouseMove={draw} 
-        onMouseUp={stopDrawing} 
-        onMouseLeave={stopDrawing} 
-        onTouchStart={startDrawing} 
-        onTouchMove={draw} 
-        onTouchEnd={stopDrawing} 
-        className="w-full h-20 rounded-lg cursor-crosshair touch-none transition-colors" 
-        style={{ 
+      <canvas
+        ref={canvasRef}
+        onMouseDown={startDrawing}
+        onMouseMove={draw}
+        onMouseUp={stopDrawing}
+        onMouseLeave={stopDrawing}
+        onTouchStart={startDrawing}
+        onTouchMove={draw}
+        onTouchEnd={stopDrawing}
+        className="w-full h-20 rounded-lg cursor-crosshair touch-none transition-colors"
+        style={{
           touchAction: 'none',
           border: '2px solid #d1d5db',
-          backgroundColor: '#ffffff'
-        }} 
+          backgroundColor: '#ffffff',
+        }}
       />
       {isSigned && (
         <button onClick={clearSignature} className="text-xs underline text-left" style={{ color: '#dc2626' }}>

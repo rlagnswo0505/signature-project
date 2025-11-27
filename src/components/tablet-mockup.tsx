@@ -85,9 +85,9 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                 {/* 푸터 */}
                 <div style={{ padding: '1rem 1.5rem', borderTop: '1px solid #e5e7eb', backgroundColor: '#f9fafb', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
                   <p style={{ fontSize: '0.75rem', color: '#4b5563' }}>{new Date().toLocaleDateString('ko-KR')}</p>
-                  <button 
-                    onClick={handleCapture} 
-                    disabled={!isAllSigned} 
+                  <button
+                    onClick={handleCapture}
+                    disabled={!isAllSigned}
                     style={{
                       padding: '0.5rem 1rem',
                       borderRadius: '0.5rem',
@@ -95,17 +95,19 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                       fontSize: '0.75rem',
                       whiteSpace: 'nowrap',
                       border: 'none',
-                      ...(isAllSigned ? {
-                        backgroundColor: '#2563eb',
-                        color: '#ffffff',
-                        cursor: 'pointer',
-                        boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
-                      } : {
-                        backgroundColor: '#d1d5db',
-                        color: '#6b7280',
-                        cursor: 'not-allowed',
-                        opacity: '0.5'
-                      })
+                      ...(isAllSigned
+                        ? {
+                            backgroundColor: '#2563eb',
+                            color: '#ffffff',
+                            cursor: 'pointer',
+                            boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
+                          }
+                        : {
+                            backgroundColor: '#d1d5db',
+                            color: '#6b7280',
+                            cursor: 'not-allowed',
+                            opacity: '0.5',
+                          }),
                     }}
                   >
                     📸 캡처
@@ -156,11 +158,7 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
 
       {/* 상태 표시 */}
       <div style={{ textAlign: 'center' }}>
-        <p style={{ fontSize: '0.875rem', color: '#cbd5e1' }}>
-          {signatures.signer1 && signatures.signer2 && signatures.signer3 
-            ? '✅ 모든 서명이 완료되었습니다!' 
-            : `⏳ ${[signatures.signer1, signatures.signer2, signatures.signer3].filter(Boolean).length}/3 완료`}
-        </p>
+        <p style={{ fontSize: '0.875rem', color: '#cbd5e1' }}>{signatures.signer1 && signatures.signer2 && signatures.signer3 ? '✅ 모든 서명이 완료되었습니다!' : `⏳ ${[signatures.signer1, signatures.signer2, signatures.signer3].filter(Boolean).length}/3 완료`}</p>
       </div>
     </div>
   );

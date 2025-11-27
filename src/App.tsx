@@ -39,12 +39,7 @@ function App() {
 
   return (
     <main className="min-h-screen bg-background">
-      <TabletMockup
-        signatures={signatures}
-        onSignatureChange={handleSignatureChange}
-        onCapture={handleCapture}
-        isAllSigned={isAllSigned}
-      />
+      <TabletMockup signatures={signatures} onSignatureChange={handleSignatureChange} onCapture={handleCapture} isAllSigned={isAllSigned} />
     </main>
   );
 }
