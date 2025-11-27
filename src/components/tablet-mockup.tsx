@@ -1,5 +1,8 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { SignatureCanvas } from './signature-canvas';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 interface TabletMockupProps {
   signatures: {
@@ -14,6 +17,13 @@ interface TabletMockupProps {
 
 export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSigned }: TabletMockupProps) {
   const mockupRef = useRef<HTMLDivElement>(null);
+  const [name, setName] = useState('');
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 영어 대문자만 허용
+    const value = e.target.value.toUpperCase().replace(/[^A-Z\s]/g, '');
+    setName(value);
+  };
 
   const handleCapture = () => {
     if (mockupRef.current) {
@@ -70,14 +80,22 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
               {/* 화면 영역 */}
               <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column', background: 'linear-gradient(to bottom, #ffffff, #f9fafb)' }}>
                 {/* 헤더 */}
-                <div style={{ padding: '1.5rem 1.5rem 1rem', borderBottom: '1px solid #e5e7eb' }}>
+                <div style={{ padding: '8px', borderBottom: '1px solid #e5e7eb' }}>
                   <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#111827' }}>서명 문서</h2>
                   <p style={{ fontSize: '0.75rem', marginTop: '0.25rem', color: '#4b5563' }}>3개 필드에 모두 서명하세요</p>
                 </div>
 
                 {/* 서명 영역 - 세로 스택 */}
                 <div style={{ flex: 1, overflowY: 'auto', padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  <SignatureCanvas label="전자서명 1" onSignatureChange={(val) => onSignatureChange('signer1', val)} />
+                  {/* 이름 입력 필드 */}
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="name" className="text-xs">
+                      본인 이름 (영어 대문자)
+                    </Label>
+                    <Input id="name" type="text" value={name} onChange={handleNameChange} placeholder="NAME" className="text-sm font-semibold uppercase" />
+                  </div>
+
+                  <SignatureCanvas label="전자서명 1" onSignatureChange={(val) => onSignatureChange('signer1', val)} name={name} />
                   <SignatureCanvas label="전자서명 2" onSignatureChange={(val) => onSignatureChange('signer2', val)} />
                   <SignatureCanvas label="전자서명 3" onSignatureChange={(val) => onSignatureChange('signer3', val)} />
                 </div>
@@ -85,33 +103,9 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                 {/* 푸터 */}
                 <div style={{ padding: '1rem 1.5rem', borderTop: '1px solid #e5e7eb', backgroundColor: '#f9fafb', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
                   <p style={{ fontSize: '0.75rem', color: '#4b5563' }}>{new Date().toLocaleDateString('ko-KR')}</p>
-                  <button
-                    onClick={handleCapture}
-                    disabled={!isAllSigned}
-                    style={{
-                      padding: '0.5rem 1rem',
-                      borderRadius: '0.5rem',
-                      fontWeight: '600',
-                      fontSize: '0.75rem',
-                      whiteSpace: 'nowrap',
-                      border: 'none',
-                      ...(isAllSigned
-                        ? {
-                            backgroundColor: '#2563eb',
-                            color: '#ffffff',
-                            cursor: 'pointer',
-                            boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
-                          }
-                        : {
-                            backgroundColor: '#d1d5db',
-                            color: '#6b7280',
-                            cursor: 'not-allowed',
-                            opacity: '0.5',
-                          }),
-                    }}
-                  >
-                    📸 캡처
-                  </button>
+                  <Button onClick={handleCapture} disabled={!isAllSigned} size="sm" className="text-xs">
+                    ✅ 서명완료
+                  </Button>
                 </div>
               </div>
 

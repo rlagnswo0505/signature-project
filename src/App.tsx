@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
 import { TabletMockup } from './components/tablet-mockup';
+import { ConfirmationDialog } from './components/confirmation-dialog';
 
 function App() {
   const [signatures, setSignatures] = useState({
@@ -8,6 +9,8 @@ function App() {
     signer2: false,
     signer3: false,
   });
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const captureElementRef = useRef<HTMLDivElement | null>(null);
 
   const isAllSigned = signatures.signer1 && signatures.signer2 && signatures.signer3;
 
@@ -18,16 +21,18 @@ function App() {
     }));
   };
 
-  const handleCapture = async (element: HTMLDivElement) => {
-    // 확인 알림창
-    const confirmed = window.confirm('본인이 직접 신청하고 전자서명 하셨나요?');
-    
-    if (!confirmed) {
-      return;
-    }
+  const handleCaptureRequest = (element: HTMLDivElement) => {
+    captureElementRef.current = element;
+    setDialogOpen(true);
+  };
+
+  const handleConfirm = async () => {
+    setDialogOpen(false);
+
+    if (!captureElementRef.current) return;
 
     try {
-      const canvas = await html2canvas(element, {
+      const canvas = await html2canvas(captureElementRef.current, {
         backgroundColor: '#ffffff',
         scale: 2,
         useCORS: true,
@@ -44,10 +49,17 @@ function App() {
     }
   };
 
+  const handleCancel = () => {
+    setDialogOpen(false);
+  };
+
   return (
-    <main className="min-h-screen bg-background">
-      <TabletMockup signatures={signatures} onSignatureChange={handleSignatureChange} onCapture={handleCapture} isAllSigned={isAllSigned} />
-    </main>
+    <>
+      <main className="min-h-screen bg-background">
+        <TabletMockup signatures={signatures} onSignatureChange={handleSignatureChange} onCapture={handleCaptureRequest} isAllSigned={isAllSigned} />
+      </main>
+      <ConfirmationDialog open={dialogOpen} onConfirm={handleConfirm} onCancel={handleCancel} />
+    </>
   );
 }
 

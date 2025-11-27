@@ -1,15 +1,20 @@
 import type React from 'react';
 import { useRef, useEffect, useState } from 'react';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 interface SignatureCanvasProps {
   label: string;
   onSignatureChange: (isSigned: boolean) => void;
+  name?: string;
 }
 
-export function SignatureCanvas({ label, onSignatureChange }: SignatureCanvasProps) {
+export function SignatureCanvas({ label, onSignatureChange, name }: SignatureCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [isSigned, setIsSigned] = useState(false);
+  const [hasStartedDrawing, setHasStartedDrawing] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -25,20 +30,19 @@ export function SignatureCanvas({ label, onSignatureChange }: SignatureCanvasPro
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Placeholder 텍스트 그리기
-    if (!isSigned) {
-      ctx.fillStyle = '#d1d5db';
-      ctx.font = 'bold 30px sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('전자서명', canvas.width / 2, canvas.height / 2);
-    }
+    // Placeholder 텍스트 그리기 (이름이 있으면 이름, 없으면 "전자서명")
+    const displayText = name || '전자서명';
+    ctx.fillStyle = '#d1d5db';
+    ctx.font = 'bold 30px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(displayText, canvas.width / 2, canvas.height / 2);
 
     ctx.strokeStyle = '#1a1a1a';
     ctx.lineWidth = 2;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-  }, [isSigned]);
+  }, [name]);
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
@@ -47,10 +51,20 @@ export function SignatureCanvas({ label, onSignatureChange }: SignatureCanvasPro
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // placeholder 지우기
-    if (!isSigned) {
+    // 처음 그리기 시작할 때만 배경 지우고 이름 placeholder 다시 그리기
+    if (!hasStartedDrawing) {
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      if (name) {
+        ctx.fillStyle = '#d1d5db';
+        ctx.font = 'bold 30px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(name, canvas.width / 2, canvas.height / 2);
+      }
+
+      setHasStartedDrawing(true);
     }
 
     setIsDrawing(true);
@@ -113,20 +127,28 @@ export function SignatureCanvas({ label, onSignatureChange }: SignatureCanvasPro
 
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Placeholder 다시 표시
+    const displayText = name || '전자서명';
+    ctx.fillStyle = '#d1d5db';
+    ctx.font = 'bold 30px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(displayText, canvas.width / 2, canvas.height / 2);
+
     setIsSigned(false);
+    setHasStartedDrawing(false);
     onSignatureChange(false);
   };
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <label className="text-xs font-semibold" style={{ color: '#1f2937' }}>
-          {label}
-        </label>
+        <Label className="text-xs">{label}</Label>
         {isSigned && (
-          <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ backgroundColor: '#dcfce7', color: '#15803d' }}>
+          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 text-xs">
             완료
-          </span>
+          </Badge>
         )}
       </div>
       <canvas
@@ -138,17 +160,17 @@ export function SignatureCanvas({ label, onSignatureChange }: SignatureCanvasPro
         onTouchStart={startDrawing}
         onTouchMove={draw}
         onTouchEnd={stopDrawing}
-        className="w-full h-20 rounded-lg cursor-crosshair touch-none transition-colors"
+        className="w-full h-20 rounded-lg cursor-crosshair touch-none transition-colors border-2"
         style={{
           touchAction: 'none',
-          border: '2px solid #d1d5db',
+          borderColor: '#d1d5db',
           backgroundColor: '#ffffff',
         }}
       />
       {isSigned && (
-        <button onClick={clearSignature} className="text-xs underline text-left" style={{ color: '#dc2626' }}>
+        <Button variant="link" onClick={clearSignature} className="text-xs h-auto p-0 text-red-600 hover:text-red-700 justify-start">
           삭제
-        </button>
+        </Button>
       )}
     </div>
   );
