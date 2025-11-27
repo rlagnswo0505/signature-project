@@ -24,9 +24,9 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'linear-gradient(to bottom right, #0f172a, #1e293b)', padding: '1rem' }}>
       {/* 타이틀 */}
-      <div style={{ marginBottom: '3rem', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '2.25rem', fontWeight: 'bold', color: '#ffffff', marginBottom: '0.5rem' }}>서명 시스템</h1>
-        <p style={{ color: '#cbd5e1' }}>태블릿에 3개의 서명을 완료하세요</p>
+      <div style={{ marginBottom: '1rem', textAlign: 'center' }}>
+        <h1 style={{ fontSize: '2.25rem', fontWeight: 'bold', color: '#ffffff', marginBottom: '0.5rem' }}>테블릿 전자서명</h1>
+        <p style={{ color: '#f86565' }}>본인이 직접신청, 직접 전자서명</p>
       </div>
 
       {/* 메인 컨테이너 - 태블릿 */}
