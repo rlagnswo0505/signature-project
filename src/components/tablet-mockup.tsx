@@ -17,6 +17,10 @@ interface TabletMockupProps {
 
 export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSigned }: TabletMockupProps) {
   const mockupRef = useRef<HTMLDivElement>(null);
+  const question1Ref = useRef<HTMLDivElement>(null);
+  const question2Ref = useRef<HTMLDivElement>(null);
+  const question3Ref = useRef<HTMLDivElement>(null);
+  const question4Ref = useRef<HTMLDivElement>(null);
   const [name, setName] = useState('');
   const [answers, setAnswers] = useState({
     question1: null as boolean | null,
@@ -38,22 +42,32 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
     }));
   };
 
+  const scrollToQuestion = (ref: React.RefObject<HTMLDivElement | null>) => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+
   const handleCapture = () => {
     // 질문 검증
     if (answers.question1 !== true) {
-      alert('❌ သင်ကိုယ်တိုင် တက်ဘလက်ဖြင့် ရေးသားပြီး လက်မှတ်ထိုးရပါမည်။');
+      alert('❌ 본인이 직접 서명해야 합니다.\n   သင်ကိုယ်တိုင် လက်မှတ်ထိုးရပါမည်။');
+      scrollToQuestion(question1Ref);
       return;
     }
     if (answers.question2 !== false) {
-      alert('❌ လက်ဆောင် ရရှိပါက ကတ်ထုတ်ပေးခြင်းမပြုပါ။');
+      alert('❌ 선물을 받으셨다면 진행할 수 없습니다.\n   လက်ဆောင် ရရှိပါက ကတ်ထုတ်ပေးခြင်းမပြုပါ။');
+      scrollToQuestion(question2Ref);
       return;
     }
     if (answers.question3 !== true) {
-      alert('❌ လိပ်စာကိုကြည့်ပါ။');
+      alert('❌ 주소가 일치하지 않습니다.\n   လိပ်စာ မကိုက်ညီပါ။');
+      scrollToQuestion(question3Ref);
       return;
     }
     if (answers.question4 !== true) {
-      alert('❌ ငွေပေးချေမည့်ရက်သည် ၁၃ ရက်မှန်ကန်ပါသလား ကြည့်ပါ။');
+      alert('❌ 결제일이 일치하지 않습니다.\n   ငွေပေးချေမည့်ရက် မကိုက်ညီပါ။');
+      scrollToQuestion(question4Ref);
       return;
     }
 
@@ -164,7 +178,7 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                         </div>
 
                         {/* 질문 1 */}
-                        <div className="flex flex-col gap-1">
+                        <div ref={question1Ref} className="flex flex-col gap-1">
                           <Label className="text-xs font-semibold">
                             ① 본인이 직접 서명하셨나요?
                             <br />
@@ -181,7 +195,7 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                         </div>
 
                         {/* 질문 2 */}
-                        <div className="flex flex-col gap-1">
+                        <div ref={question2Ref} className="flex flex-col gap-1">
                           <Label className="text-xs font-semibold">
                             ② 선물 받은 적 있나요?
                             <br />
@@ -198,7 +212,7 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                         </div>
 
                         {/* 질문 3 */}
-                        <div className="flex flex-col gap-1">
+                        <div ref={question3Ref} className="flex flex-col gap-1">
                           <Label className="text-xs font-semibold">
                             ③ 자택주소가 부평구 광장로 16 1층 10호 미얀골 맞나요?
                             <br />
@@ -215,7 +229,7 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                         </div>
 
                         {/* 질문 4 */}
-                        <div className="flex flex-col gap-1">
+                        <div ref={question4Ref} className="flex flex-col gap-1">
                           <Label className="text-xs font-semibold">
                             ④ 결제일이 13일 맞나요?
                             <br />
