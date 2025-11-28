@@ -17,6 +17,7 @@ interface TabletMockupProps {
 
 export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSigned }: TabletMockupProps) {
   const mockupRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const question1Ref = useRef<HTMLDivElement>(null);
   const question2Ref = useRef<HTMLDivElement>(null);
   const question3Ref = useRef<HTMLDivElement>(null);
@@ -45,6 +46,14 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
   const scrollToQuestion = (ref: React.RefObject<HTMLDivElement | null>) => {
     if (ref.current) {
       ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+
+  const scrollPage = (direction: 'up' | 'down') => {
+    if (scrollContainerRef.current) {
+      const containerHeight = scrollContainerRef.current.clientHeight;
+      const scrollAmount = direction === 'down' ? containerHeight * 0.8 : -containerHeight * 0.8;
+      scrollContainerRef.current.scrollBy({ top: scrollAmount, behavior: 'smooth' });
     }
   };
 
@@ -124,7 +133,7 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
               </div>
 
               {/* 화면 영역 */}
-              <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column', background: 'linear-gradient(to bottom, #ffffff, #f9fafb)' }}>
+              <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column', background: 'linear-gradient(to bottom, #ffffff, #f9fafb)', position: 'relative' }}>
                 {/* 헤더 */}
                 <div style={{ padding: '8px', borderBottom: '1px solid #e5e7eb' }}>
                   <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#111827' }}>Samsung Card</h2>
@@ -132,7 +141,7 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                 </div>
 
                 {/* 서명 영역 - 세로 스택 */}
-                <div style={{ flex: 1, overflowY: 'auto', padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <div ref={scrollContainerRef} style={{ flex: 1, overflowY: 'auto', padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                   {/* 모집인 사진 */}
                   <div
                     className="flex justify-center items-center
@@ -250,6 +259,59 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                       <SignatureCanvas label="လက်မှတ် ၂" onSignatureChange={(val) => onSignatureChange('signer2', val)} name={name} />
                     </>
                   )}
+                </div>
+
+                {/* 스크롤 버튼 */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    right: '0.5rem',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.5rem',
+                    zIndex: 10,
+                  }}
+                >
+                  <button
+                    onClick={() => scrollPage('up')}
+                    style={{
+                      width: '2.5rem',
+                      height: '2.5rem',
+                      borderRadius: '50%',
+                      backgroundColor: 'rgba(37, 99, 235, 0.9)',
+                      color: 'white',
+                      border: 'none',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '1.25rem',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                    }}
+                  >
+                    ▲
+                  </button>
+                  <button
+                    onClick={() => scrollPage('down')}
+                    style={{
+                      width: '2.5rem',
+                      height: '2.5rem',
+                      borderRadius: '50%',
+                      backgroundColor: 'rgba(37, 99, 235, 0.9)',
+                      color: 'white',
+                      border: 'none',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '1.25rem',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                    }}
+                  >
+                    ▼
+                  </button>
                 </div>
 
                 {/* 푸터 */}
