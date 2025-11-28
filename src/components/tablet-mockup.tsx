@@ -63,11 +63,11 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'linear-gradient(to bottom right, #0f172a, #1e293b)', padding: '1rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'linear-gradient(to bottom right, #ccdbff, #5788d7)', padding: '1rem' }}>
       {/* 타이틀 */}
       <div style={{ marginBottom: '1rem', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '2.25rem', fontWeight: 'bold', color: '#ffffff', marginBottom: '0.5rem' }}>တက်ဘလက် လက်မှတ်ထိုးခြင်း</h1>
-        <p style={{ color: '#f86565' }}>ကိုယ်တိုင်လျှောက်ထား၊ ကိုယ်တိုင်လက်မှတ်ထိုး</p>
+        <h1 style={{ fontSize: '2.25rem', fontWeight: 'bold', color: 'rgb(52, 52, 52)', marginBottom: '0.5rem' }}>တက်ဘလက် လက်မှတ်ထိုးခြင်း</h1>
+        <p style={{ color: '#fc5757' }}>ကိုယ်တိုင်လျှောက်ထား၊ ကိုယ်တိုင်လက်မှတ်ထိုး</p>
       </div>
 
       {/* 메인 컨테이너 - 태블릿 */}
@@ -100,10 +100,10 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
               }}
             >
               {/* 상단 스피커/센서 영역 */}
-              <div style={{ height: '1.5rem', background: 'linear-gradient(to bottom, #111827, #000000)', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid #374151' }}>
+              <div style={{ height: '1.5rem', background: 'linear-gradient(to bottom, #111827, #000000)', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid #7f8ea6' }}>
                 <div style={{ display: 'flex', gap: '0.25rem' }}>
                   {[...Array(12)].map((_, i) => (
-                    <div key={i} style={{ width: '0.25rem', height: '0.125rem', backgroundColor: '#4b5563', borderRadius: '9999px' }}></div>
+                    <div key={i} style={{ width: '0.25rem', height: '0.125rem', backgroundColor: '#ffffff', borderRadius: '9999px' }}></div>
                   ))}
                 </div>
               </div>
@@ -211,7 +211,7 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                   style={{
                     width: '3rem',
                     height: '0.375rem',
-                    backgroundColor: '#1f2937',
+                    backgroundColor: '#536d91',
                     borderRadius: '9999px',
                     boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.8)',
                   }}

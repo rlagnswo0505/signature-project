@@ -182,7 +182,7 @@ export function SignatureCanvas({ label, onSignatureChange, name }: SignatureCan
         onTouchStart={startDrawing}
         onTouchMove={draw}
         onTouchEnd={stopDrawing}
-        className="w-full h-40 rounded-lg cursor-crosshair touch-none transition-colors border-[2px]"
+        className="w-full h-44 rounded-lg cursor-crosshair touch-none transition-colors border-[2px]"
         style={{
           touchAction: 'none',
           borderColor: '#9ca3af',
