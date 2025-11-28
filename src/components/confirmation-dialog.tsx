@@ -103,10 +103,10 @@ export function ConfirmationDialog({ open, onConfirm, onCancel }: ConfirmationDi
         {error && <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-md text-sm">{error}</div>}
 
         <DialogFooter className="flex gap-3 sm:gap-3">
-          <Button type="button" variant={correctAnswer ? 'default' : 'outline'} onClick={() => handleAnswer(true)} className={correctAnswer ? 'font-bold' : ''}>
+          <Button type="button" variant={'outline'} onClick={() => handleAnswer(true)} className={correctAnswer ? 'font-bold border-2 border-blue-600' : 'border-2'}>
             Yes
           </Button>
-          <Button type="button" variant={!correctAnswer ? 'default' : 'outline'} onClick={() => handleAnswer(false)} className={!correctAnswer ? 'font-bold' : ''}>
+          <Button type="button" variant={'outline'} onClick={() => handleAnswer(false)} className={!correctAnswer ? 'font-bold border-2 border-blue-600' : 'border-2'}>
             No
           </Button>
         </DialogFooter>
