@@ -109,19 +109,25 @@ export function SignatureCanvas({ label, onSignatureChange, name }: SignatureCan
     ctx.closePath();
     setIsDrawing(false);
 
+    // 실제로 그린 선이 있는지 확인 (검은색 선만 카운트)
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const data = imageData.data;
-    let hasSomething = false;
+    let hasDrawing = false;
 
     for (let i = 0; i < data.length; i += 4) {
-      // 배경색(흰색)이 아닌 픽셀이 있는지 확인
-      if (data[i] < 250 || data[i + 1] < 250 || data[i + 2] < 250) {
-        hasSomething = true;
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+
+      // 검은색에 가까운 픽셀만 체크 (실제 그린 선)
+      // placeholder 회색(#d1d5db = rgb(209, 213, 219))은 제외
+      if (r < 100 && g < 100 && b < 100) {
+        hasDrawing = true;
         break;
       }
     }
 
-    if (hasSomething && !isSigned) {
+    if (hasDrawing && !isSigned) {
       setIsSigned(true);
       onSignatureChange(true);
     }
@@ -176,7 +182,7 @@ export function SignatureCanvas({ label, onSignatureChange, name }: SignatureCan
         onTouchStart={startDrawing}
         onTouchMove={draw}
         onTouchEnd={stopDrawing}
-        className="w-full h-20 rounded-lg cursor-crosshair touch-none transition-colors border-[3px]"
+        className="w-full h-40 rounded-lg cursor-crosshair touch-none transition-colors border-[2px]"
         style={{
           touchAction: 'none',
           borderColor: '#9ca3af',
@@ -184,7 +190,7 @@ export function SignatureCanvas({ label, onSignatureChange, name }: SignatureCan
         }}
       />
       {isSigned && (
-        <Button variant="link" onClick={clearSignature} className="text-xs h-auto p-0 text-red-600 hover:text-red-700 justify-start">
+        <Button variant="destructive" size="sm" onClick={clearSignature} className="text-xs">
           삭제
         </Button>
       )}

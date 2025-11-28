@@ -18,6 +18,12 @@ interface TabletMockupProps {
 export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSigned }: TabletMockupProps) {
   const mockupRef = useRef<HTMLDivElement>(null);
   const [name, setName] = useState('');
+  const [answers, setAnswers] = useState({
+    question1: null as boolean | null,
+    question2: null as boolean | null,
+    question3: null as boolean | null,
+    question4: null as boolean | null,
+  });
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // 영어 대문자만 허용
@@ -25,7 +31,36 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
     setName(value);
   };
 
+  const handleAnswerChange = (question: string, answer: boolean) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [question]: answer,
+    }));
+  };
+
+  // 모든 질문에 정답으로 답했는지 확인
+  const allQuestionsCorrect = answers.question1 === true && answers.question2 === false && answers.question3 === true && answers.question4 === true;
+
   const handleCapture = () => {
+    // 질문 검증
+    if (answers.question1 !== true) {
+      alert('❌ 본인이 직접 태블릿으로 작성하고 서명해야 합니다.');
+      return;
+    }
+    if (answers.question2 !== false) {
+      alert('❌ 선물을 받으신 경우 카드 발급이 불가능합니다.');
+      return;
+    }
+    if (answers.question3 !== true) {
+      alert('❌ 자택주소를 다시 확인해주세요.');
+      return;
+    }
+    if (answers.question4 !== true) {
+      alert('❌ 결제일이 13일이 맞는지 확인해주세요.');
+      return;
+    }
+
+    // 모든 검증 통과 시 캡처
     if (mockupRef.current) {
       onCapture(mockupRef.current);
     }
@@ -95,16 +130,82 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                     <Input id="name" type="text" value={name} onChange={handleNameChange} placeholder="NAME" className="text-sm font-semibold uppercase" />
                   </div>
 
-                  <SignatureCanvas label="전자서명 1" onSignatureChange={(val) => onSignatureChange('signer1', val)} name={name} />
-                  <SignatureCanvas label="전자서명 2" onSignatureChange={(val) => onSignatureChange('signer2', val)} name={name} />
-                  <SignatureCanvas label="전자서명 3" onSignatureChange={(val) => onSignatureChange('signer3', val)} name={name} />
+                  {/* 이름 입력 후에만 질문과 서명란 표시 */}
+                  {name.trim() && (
+                    <>
+                      {/* 고객 확인 질문 */}
+                      <div className="flex flex-col gap-3 p-3 border-2 border-orange-400 rounded-lg bg-yellow-50">
+                        <div className="text-xs font-bold text-red-600 leading-relaxed">
+                          모든 항목을 읽고 태블릿 전자 서명을 해주세요.
+                          <br />
+                          심사 대답에 잘못 대답 시 카드발급이 취소될 수 있습니다.
+                        </div>
+
+                        {/* 질문 1 */}
+                        <div className="flex flex-col gap-1">
+                          <Label className="text-xs font-semibold">1. 본인이 직접 태블릿으로 작성하고 서명했나요?</Label>
+                          <div className="flex gap-2">
+                            <Button size="sm" variant={answers.question1 === true ? 'default' : 'outline'} onClick={() => handleAnswerChange('question1', true)} className="text-xs flex-1">
+                              예 ✓
+                            </Button>
+                            <Button size="sm" variant={answers.question1 === false ? 'default' : 'outline'} onClick={() => handleAnswerChange('question1', false)} className="text-xs flex-1">
+                              아니요
+                            </Button>
+                          </div>
+                        </div>
+
+                        {/* 질문 2 */}
+                        <div className="flex flex-col gap-1">
+                          <Label className="text-xs font-semibold">2. 선물을 받은 적 있나요?</Label>
+                          <div className="flex gap-2">
+                            <Button size="sm" variant={answers.question2 === true ? 'default' : 'outline'} onClick={() => handleAnswerChange('question2', true)} className="text-xs flex-1">
+                              예
+                            </Button>
+                            <Button size="sm" variant={answers.question2 === false ? 'default' : 'outline'} onClick={() => handleAnswerChange('question2', false)} className="text-xs flex-1">
+                              아니요 ✓
+                            </Button>
+                          </div>
+                        </div>
+
+                        {/* 질문 3 */}
+                        <div className="flex flex-col gap-1">
+                          <Label className="text-xs font-semibold">3. 자택주소가 부평구 광장로 16 1층 10호 미얀골 맞나요?</Label>
+                          <div className="flex gap-2">
+                            <Button size="sm" variant={answers.question3 === true ? 'default' : 'outline'} onClick={() => handleAnswerChange('question3', true)} className="text-xs flex-1">
+                              예 ✓
+                            </Button>
+                            <Button size="sm" variant={answers.question3 === false ? 'default' : 'outline'} onClick={() => handleAnswerChange('question3', false)} className="text-xs flex-1">
+                              아니요
+                            </Button>
+                          </div>
+                        </div>
+
+                        {/* 질문 4 */}
+                        <div className="flex flex-col gap-1">
+                          <Label className="text-xs font-semibold">4. 결제일이 13일 맞나요?</Label>
+                          <div className="flex gap-2">
+                            <Button size="sm" variant={answers.question4 === true ? 'default' : 'outline'} onClick={() => handleAnswerChange('question4', true)} className="text-xs flex-1">
+                              예 (13일) ✓
+                            </Button>
+                            <Button size="sm" variant={answers.question4 === false ? 'default' : 'outline'} onClick={() => handleAnswerChange('question4', false)} className="text-xs flex-1">
+                              아니요
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <SignatureCanvas label="전자서명 1" onSignatureChange={(val) => onSignatureChange('signer1', val)} name={name} />
+                      <SignatureCanvas label="전자서명 2" onSignatureChange={(val) => onSignatureChange('signer2', val)} name={name} />
+                      <SignatureCanvas label="전자서명 3" onSignatureChange={(val) => onSignatureChange('signer3', val)} name={name} />
+                    </>
+                  )}
                 </div>
 
                 {/* 푸터 */}
                 <div style={{ padding: '1rem 1.5rem', borderTop: '1px solid #e5e7eb', backgroundColor: '#f9fafb', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
                   <p style={{ fontSize: '0.75rem', color: '#4b5563' }}>{new Date().toLocaleDateString('ko-KR')}</p>
                   <Button onClick={handleCapture} disabled={!isAllSigned} size="sm" className="text-xs">
-                    ✅ 서명완료
+                    📸 캡처하기
                   </Button>
                 </div>
               </div>
