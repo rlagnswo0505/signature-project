@@ -16,24 +16,24 @@ interface ConfirmationDialogProps {
 
 const questions: Question[] = [
   {
-    question: '본인이 서명하셨나요?',
+    question: 'သင်ကိုယ်တိုင် လက်မှတ်ထိုးခဲ့ပါသလား?',
     correctAnswer: true,
-    errorMessage: '본인이 직접 서명해야 합니다.',
+    errorMessage: 'သင်ကိုယ်တိုင် လက်မှတ်ထိုးရပါမည်။',
   },
   {
-    question: '자택이 부평구 광장로 16 1층 10호 미얀골이 맞나요?',
+    question: 'သင့်နေအိမ်က 부평구 광장로 16 1층 10호 미얀골 မှန်ပါသလား?',
     correctAnswer: true,
-    errorMessage: '주소가 일치하지 않습니다.',
+    errorMessage: 'လိပ်စာ မကိုက်ညီပါ။',
   },
   {
-    question: '선물받은거 있나요?',
+    question: 'လက်ဆောင် ရရှိဖူးပါသလား?',
     correctAnswer: false,
-    errorMessage: '선물을 받으셨다면 진행할 수 없습니다.',
+    errorMessage: 'လက်ဆောင်ရရှိပါက ဆက်လုပ်ဆောင်၍မရပါ။',
   },
   {
-    question: '결제일자가 13일인가요?',
+    question: 'ငွေပေးချေမည့်ရက်က ၁၃ ရက်မှန်ပါသလား?',
     correctAnswer: true,
-    errorMessage: '결제일자가 일치하지 않습니다.',
+    errorMessage: 'ငွေပေးချေမည့်ရက် မကိုက်ညီပါ။',
   },
 ];
 
@@ -96,7 +96,7 @@ export function ConfirmationDialog({ open, onConfirm, onCancel }: ConfirmationDi
     <Dialog open={open} onOpenChange={handleCancel}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="text-xl">서명 확인 ({currentStep + 1}/4)</DialogTitle>
+          <DialogTitle className="text-xl">လက်မှတ် အတည်ပြုခြင်း ({currentStep + 1}/4)</DialogTitle>
           <DialogDescription className="text-base pt-2">{renderQuestion()}</DialogDescription>
         </DialogHeader>
 
@@ -104,10 +104,10 @@ export function ConfirmationDialog({ open, onConfirm, onCancel }: ConfirmationDi
 
         <DialogFooter className="flex gap-3 sm:gap-3">
           <Button type="button" variant={correctAnswer ? 'default' : 'outline'} onClick={() => handleAnswer(true)} className={correctAnswer ? 'font-bold' : ''}>
-            예
+            Yes
           </Button>
           <Button type="button" variant={!correctAnswer ? 'default' : 'outline'} onClick={() => handleAnswer(false)} className={!correctAnswer ? 'font-bold' : ''}>
-            아니요
+            No
           </Button>
         </DialogFooter>
 

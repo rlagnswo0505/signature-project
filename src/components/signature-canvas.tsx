@@ -169,7 +169,7 @@ export function SignatureCanvas({ label, onSignatureChange, name }: SignatureCan
         <Label className="text-xs">{label}</Label>
         {isSigned && (
           <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 text-xs">
-            완료
+            Done
           </Badge>
         )}
       </div>
@@ -191,7 +191,7 @@ export function SignatureCanvas({ label, onSignatureChange, name }: SignatureCan
       />
       {isSigned && (
         <Button variant="destructive" size="sm" onClick={clearSignature} className="text-xs">
-          삭제
+          Clear
         </Button>
       )}
     </div>

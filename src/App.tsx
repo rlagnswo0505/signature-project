@@ -7,12 +7,11 @@ function App() {
   const [signatures, setSignatures] = useState({
     signer1: false,
     signer2: false,
-    signer3: false,
   });
   const [dialogOpen, setDialogOpen] = useState(false);
   const captureElementRef = useRef<HTMLDivElement | null>(null);
 
-  const isAllSigned = signatures.signer1 && signatures.signer2 && signatures.signer3;
+  const isAllSigned = signatures.signer1 && signatures.signer2;
 
   const handleSignatureChange = (key: string, value: boolean) => {
     setSignatures((prev) => ({
@@ -48,7 +47,7 @@ function App() {
           allElements.forEach((el) => {
             const htmlEl = el as HTMLElement;
             const computedStyle = window.getComputedStyle(el);
-            
+
             // oklch, lab를 사용하는 경우 fallback 색상 설정
             if (computedStyle.color?.includes('oklch') || computedStyle.color?.includes('lab')) {
               htmlEl.style.color = '#1a1a1a';
@@ -68,8 +67,8 @@ function App() {
       link.download = `signature-document-${new Date().getTime()}.png`;
       link.click();
     } catch (error) {
-      console.error('캡처 중 오류가 발생했습니다:', error);
-      alert('캡처에 실패했습니다. 다시 시도해주세요.');
+      console.error('ဓာတ်ပုံရိုက်ရာတွင် အမှားအယွင်းဖြစ်ပွားခဲ့သည်:', error);
+      alert('ဓာတ်ပုံရိုက်ခြင်း မအောင်မြင်ပါ။ ထပ်မံကြိုးစားပါ။');
     }
   };
 
