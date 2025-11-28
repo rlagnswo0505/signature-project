@@ -38,25 +38,25 @@ function App() {
         useCORS: true,
         allowTaint: true,
         ignoreElements: (element) => {
-          // oklch를 사용하는 요소 무시
+          // oklch, lab를 사용하는 요소 무시
           const computedStyle = window.getComputedStyle(element);
-          return computedStyle.color?.includes('oklch') || computedStyle.backgroundColor?.includes('oklch');
+          return computedStyle.color?.includes('oklch') || computedStyle.backgroundColor?.includes('oklch') || computedStyle.color?.includes('lab') || computedStyle.backgroundColor?.includes('lab');
         },
         onclone: (clonedDoc) => {
-          // 클론된 문서에서 oklch 색상을 rgb로 변환
+          // 클론된 문서에서 oklch, lab 색상을 rgb로 변환
           const allElements = clonedDoc.querySelectorAll('*');
           allElements.forEach((el) => {
             const htmlEl = el as HTMLElement;
             const computedStyle = window.getComputedStyle(el);
             
-            // oklch를 사용하는 경우 fallback 색상 설정
-            if (computedStyle.color?.includes('oklch')) {
+            // oklch, lab를 사용하는 경우 fallback 색상 설정
+            if (computedStyle.color?.includes('oklch') || computedStyle.color?.includes('lab')) {
               htmlEl.style.color = '#1a1a1a';
             }
-            if (computedStyle.backgroundColor?.includes('oklch')) {
+            if (computedStyle.backgroundColor?.includes('oklch') || computedStyle.backgroundColor?.includes('lab')) {
               htmlEl.style.backgroundColor = '#ffffff';
             }
-            if (computedStyle.borderColor?.includes('oklch')) {
+            if (computedStyle.borderColor?.includes('oklch') || computedStyle.borderColor?.includes('lab')) {
               htmlEl.style.borderColor = '#e0e0e0';
             }
           });
