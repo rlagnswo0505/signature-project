@@ -3,6 +3,7 @@ import { SignatureCanvas } from './signature-canvas';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import Picture from '@/assets/1.jpg';
 
 interface TabletMockupProps {
   signatures: {
@@ -112,12 +113,33 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
               <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column', background: 'linear-gradient(to bottom, #ffffff, #f9fafb)' }}>
                 {/* 헤더 */}
                 <div style={{ padding: '8px', borderBottom: '1px solid #e5e7eb' }}>
-                  <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#111827' }}>လက်မှတ်စာရွက်စာတမ်း</h2>
+                  <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#111827' }}>Samsung Card</h2>
                   <p style={{ fontSize: '0.75rem', marginTop: '0.25rem', color: '#4b5563' }}>နေရာ 2 ခုလုံးတွင် လက်မှတ်ထိုးပါ</p>
                 </div>
 
                 {/* 서명 영역 - 세로 스택 */}
                 <div style={{ flex: 1, overflowY: 'auto', padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  {/* 모집인 사진 */}
+                  <div
+                    className="flex justify-center items-center
+                    gap-4
+                  "
+                  >
+                    <div>
+                      <p className="text-sm font-semibold text-gray-700">카드 모집인</p>
+                      <p className="text-sm font-semibold text-gray-700">ကတ်အေးဂျင့်</p>
+                    </div>
+
+                    <img
+                      src={Picture}
+                      alt="Recruiter"
+                      className="
+                    w-24 h-24 rounded-full border-2 border-gray-700 shadow-md"
+                      style={{
+                        objectFit: 'cover',
+                      }}
+                    />
+                  </div>
                   {/* 이름 입력 필드 */}
                   <div className="flex flex-col gap-2 p-3 border-2 border-gray-400 rounded-lg bg-blue-50">
                     <Label htmlFor="name" className="text-xs font-bold">
@@ -132,16 +154,20 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                       {/* 고객 확인 질문 */}
                       <div className="flex flex-col gap-3 p-3 border-2 border-orange-400 rounded-lg bg-yellow-50">
                         <div className="text-xs font-bold text-red-600 leading-relaxed">
-                          모든 항목을 읽고 태블릿에 서명해주세요.<br />
-                          심사 대답을 잘못하면 카드발급이 취소될 수 있습니다.<br />
-                          <span className="text-gray-600">အရာအားလုံးကို ဖတ်ပြီး တက်ဘလက်တွင် လက်မှတ်ထိုးပါ။</span><br />
+                          모든 항목을 읽고 태블릿에 서명해주세요.
+                          <br />
+                          심사 대답을 잘못하면 카드발급이 취소될 수 있습니다.
+                          <br />
+                          <span className="text-gray-600">အရာအားလုံးကို ဖတ်ပြီး တက်ဘလက်တွင် လက်မှတ်ထိုးပါ။</span>
+                          <br />
                           <span className="text-gray-600">မေးခွန်းများကို မှားယွင်းစွာ ဖြေဆိုပါက ကတ်ထုတ်ပေးမှု ပယ်ဖျက်ခံရနိုင်ပါသည်။</span>
                         </div>
 
                         {/* 질문 1 */}
                         <div className="flex flex-col gap-1">
                           <Label className="text-xs font-semibold">
-                            ① 본인이 직접 서명하셨나요?<br />
+                            ① 본인이 직접 서명하셨나요?
+                            <br />
                             <span className="text-gray-500">၁။ သင်ကိုယ်တိုင် တက်ဘလက်ဖြင့် ရေးသားပြီး လက်မှတ်ထိုးခဲ့ပါသလား?</span>
                           </Label>
                           <div className="flex gap-2">
@@ -157,7 +183,8 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                         {/* 질문 2 */}
                         <div className="flex flex-col gap-1">
                           <Label className="text-xs font-semibold">
-                            ② 선물 받은 적 있나요?<br />
+                            ② 선물 받은 적 있나요?
+                            <br />
                             <span className="text-gray-500">၂။ လက်ဆောင် ရရှိဖူးပါသလား?</span>
                           </Label>
                           <div className="flex gap-2">
@@ -173,7 +200,8 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                         {/* 질문 3 */}
                         <div className="flex flex-col gap-1">
                           <Label className="text-xs font-semibold">
-                            ③ 자택주소가 부평구 광장로 16 1층 10호 미얀골 맞나요?<br />
+                            ③ 자택주소가 부평구 광장로 16 1층 10호 미얀골 맞나요?
+                            <br />
                             <span className="text-gray-500">၃။ သင့်နေအိမ်လိပ်စာက 부평구 광장로 16 1층 10호 미얀골 မှန်ပါသလား?</span>
                           </Label>
                           <div className="flex gap-2">
@@ -189,7 +217,8 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                         {/* 질문 4 */}
                         <div className="flex flex-col gap-1">
                           <Label className="text-xs font-semibold">
-                            ④ 결제일이 13일 맞나요?<br />
+                            ④ 결제일이 13일 맞나요?
+                            <br />
                             <span className="text-gray-500">၄။ ငွေပေးချေမည့်ရက်သည် ၁၃ ရက်မှန်ပါသလား?</span>
                           </Label>
                           <div className="flex gap-2">
