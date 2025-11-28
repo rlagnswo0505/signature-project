@@ -16,24 +16,24 @@ interface ConfirmationDialogProps {
 
 const questions: Question[] = [
   {
-    question: 'သင်ကိုယ်တိုင် လက်မှတ်ထိုးခဲ့ပါသလား?',
+    question: '본인이 직접 서명하셨나요?\nသင်ကိုယ်တိုင် လက်မှတ်ထိုးခဲ့ပါသလား?',
     correctAnswer: true,
-    errorMessage: 'သင်ကိုယ်တိုင် လက်မှတ်ထိုးရပါမည်။',
+    errorMessage: '본인이 직접 서명해야 합니다.\nသင်ကိုယ်တိုင် လက်မှတ်ထိုးရပါမည်။',
   },
   {
-    question: 'သင့်နေအိမ်က 부평구 광장로 16 1층 10호 미얀골 မှန်ပါသလား?',
+    question: '자택주소가 부평구 광장로 16 1층 10호 미얀골 맞나요?\nသင့်နေအိမ်က 부평구 광장로 16 1층 10호 미얀골 မှန်ပါသလား?',
     correctAnswer: true,
-    errorMessage: 'လိပ်စာ မကိုက်ညီပါ။',
+    errorMessage: '주소가 일치하지 않습니다.\nလိပ်စာ မကိုက်ညီပါ။',
   },
   {
-    question: 'လက်ဆောင် ရရှိဖူးပါသလား?',
+    question: '선물 받은 적 있나요?\nလက်ဆောင် ရရှိဖူးပါသလား?',
     correctAnswer: false,
-    errorMessage: 'လက်ဆောင်ရရှိပါက ဆက်လုပ်ဆောင်၍မရပါ။',
+    errorMessage: '선물을 받으셨다면 진행할 수 없습니다.\nလက်ဆောင်ရရှိပါက ဆက်လုပ်ဆောင်၍မရပါ။',
   },
   {
-    question: 'ငွေပေးချေမည့်ရက်က ၁၃ ရက်မှန်ပါသလား?',
+    question: '결제일이 13일 맞나요?\nငွေပေးချေမည့်ရက်က ၁၃ ရက်မှန်ပါသလား?',
     correctAnswer: true,
-    errorMessage: 'ငွေပေးချေမည့်ရက် မကိုက်ညီပါ။',
+    errorMessage: '결제일이 일치하지 않습니다.\nငွေပေးချေမည့်ရက် မကိုက်ညီပါ။',
   },
 ];
 
@@ -96,27 +96,17 @@ export function ConfirmationDialog({ open, onConfirm, onCancel }: ConfirmationDi
     <Dialog open={open} onOpenChange={handleCancel}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="text-xl">လက်မှတ် အတည်ပြုခြင်း ({currentStep + 1}/4)</DialogTitle>
-          <DialogDescription className="text-base pt-2">{renderQuestion()}</DialogDescription>
+          <DialogTitle className="text-xl">서명 확인 / လက်မှတ် အတည်ပြုခြင်း ({currentStep + 1}/4)</DialogTitle>
+          <DialogDescription className="text-base pt-2 whitespace-pre-line">{renderQuestion()}</DialogDescription>
         </DialogHeader>
 
-        {error && <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-md text-sm">{error}</div>}
+        {error && <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-md text-sm whitespace-pre-line">{error}</div>}
 
         <DialogFooter key={`step-${currentStep}`} className="flex gap-3 sm:gap-3">
-          <Button 
-            type="button" 
-            variant="outline" 
-            onClick={() => handleAnswer(true)} 
-            className={`${correctAnswer ? 'font-bold border-2 border-blue-500 bg-blue-50' : 'border-2'} active:bg-gray-100 focus:outline-none`}
-          >
+          <Button type="button" variant="outline" onClick={() => handleAnswer(true)} className={`${correctAnswer ? 'font-bold border-2 border-blue-500 bg-blue-50' : 'border-2'} active:bg-gray-100 focus:outline-none`}>
             Yes
           </Button>
-          <Button 
-            type="button" 
-            variant="outline" 
-            onClick={() => handleAnswer(false)} 
-            className={`${!correctAnswer ? 'font-bold border-2 border-blue-500 bg-blue-50' : 'border-2'} active:bg-gray-100 focus:outline-none`}
-          >
+          <Button type="button" variant="outline" onClick={() => handleAnswer(false)} className={`${!correctAnswer ? 'font-bold border-2 border-blue-500 bg-blue-50' : 'border-2'} active:bg-gray-100 focus:outline-none`}>
             No
           </Button>
         </DialogFooter>
