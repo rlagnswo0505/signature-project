@@ -38,9 +38,6 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
     }));
   };
 
-  // 모든 질문에 정답으로 답했는지 확인
-  const allQuestionsCorrect = answers.question1 === true && answers.question2 === false && answers.question3 === true && answers.question4 === true;
-
   const handleCapture = () => {
     // 질문 검증
     if (answers.question1 !== true) {
