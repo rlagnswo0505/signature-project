@@ -96,7 +96,8 @@ export function ConfirmationDialog({ open, onConfirm, onCancel }: ConfirmationDi
     <Dialog open={open} onOpenChange={handleCancel}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="text-xl">서명 확인 / လက်မှတ် အတည်ပြုခြင်း ({currentStep + 1}/4)</DialogTitle>
+          {/* {테블릿 전자서명 버마어} */}
+          <DialogTitle className="text-xl">테블릿 전자서명 / တက်ဘလက် လက်မှတ်ထိုးခြင်း ({currentStep + 1}/4)</DialogTitle>
           <DialogDescription className="text-base pt-2 whitespace-pre-line">{renderQuestion()}</DialogDescription>
         </DialogHeader>
 
