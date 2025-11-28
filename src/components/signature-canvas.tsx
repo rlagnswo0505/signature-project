@@ -30,16 +30,24 @@ export function SignatureCanvas({ label, onSignatureChange, name }: SignatureCan
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Placeholder 텍스트 그리기 (이름이 있으면 이름, 없으면 "전자서명")
-    const displayText = name || '전자서명';
-    ctx.fillStyle = '#d1d5db';
-    ctx.font = 'bold 30px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(displayText, canvas.width / 2, canvas.height / 2);
+    // 이름이 있으면 항상 표시 (서명 후에도 유지)
+    if (name) {
+      ctx.fillStyle = '#d1d5db';
+      ctx.font = 'bold 30px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(name, canvas.width / 2, canvas.height / 2);
+    } else {
+      // 이름이 없을 때만 "전자서명" placeholder
+      ctx.fillStyle = '#d1d5db';
+      ctx.font = 'bold 30px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('전자서명', canvas.width / 2, canvas.height / 2);
+    }
 
     ctx.strokeStyle = '#1a1a1a';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 3;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
   }, [name]);
@@ -51,19 +59,20 @@ export function SignatureCanvas({ label, onSignatureChange, name }: SignatureCan
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // 처음 그리기 시작할 때만 배경 지우고 이름 placeholder 다시 그리기
-    if (!hasStartedDrawing) {
+    // 첫 그리기 시작할 때만 "전자서명" placeholder 지우기 (이름은 유지)
+    if (!hasStartedDrawing && !name) {
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      if (name) {
-        ctx.fillStyle = '#d1d5db';
-        ctx.font = 'bold 30px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(name, canvas.width / 2, canvas.height / 2);
-      }
-
+      setHasStartedDrawing(true);
+    } else if (!hasStartedDrawing && name) {
+      // 이름이 있을 때는 배경만 다시 그리고 이름 유지
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#d1d5db';
+      ctx.font = 'bold 30px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(name, canvas.width / 2, canvas.height / 2);
       setHasStartedDrawing(true);
     }
 
@@ -128,13 +137,20 @@ export function SignatureCanvas({ label, onSignatureChange, name }: SignatureCan
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Placeholder 다시 표시
-    const displayText = name || '전자서명';
-    ctx.fillStyle = '#d1d5db';
-    ctx.font = 'bold 30px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(displayText, canvas.width / 2, canvas.height / 2);
+    // 이름이 있으면 이름 표시, 없으면 "전자서명" 표시
+    if (name) {
+      ctx.fillStyle = '#d1d5db';
+      ctx.font = 'bold 30px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(name, canvas.width / 2, canvas.height / 2);
+    } else {
+      ctx.fillStyle = '#d1d5db';
+      ctx.font = 'bold 30px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('전자서명', canvas.width / 2, canvas.height / 2);
+    }
 
     setIsSigned(false);
     setHasStartedDrawing(false);
@@ -160,10 +176,10 @@ export function SignatureCanvas({ label, onSignatureChange, name }: SignatureCan
         onTouchStart={startDrawing}
         onTouchMove={draw}
         onTouchEnd={stopDrawing}
-        className="w-full h-20 rounded-lg cursor-crosshair touch-none transition-colors border-2"
+        className="w-full h-20 rounded-lg cursor-crosshair touch-none transition-colors border-[3px]"
         style={{
           touchAction: 'none',
-          borderColor: '#d1d5db',
+          borderColor: '#9ca3af',
           backgroundColor: '#ffffff',
         }}
       />

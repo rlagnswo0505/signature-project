@@ -88,16 +88,16 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                 {/* 서명 영역 - 세로 스택 */}
                 <div style={{ flex: 1, overflowY: 'auto', padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                   {/* 이름 입력 필드 */}
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="name" className="text-xs">
+                  <div className="flex flex-col gap-2 p-3 border-2 border-gray-400 rounded-lg bg-blue-50">
+                    <Label htmlFor="name" className="text-xs font-bold">
                       본인 이름 (영어 대문자)
                     </Label>
                     <Input id="name" type="text" value={name} onChange={handleNameChange} placeholder="NAME" className="text-sm font-semibold uppercase" />
                   </div>
 
                   <SignatureCanvas label="전자서명 1" onSignatureChange={(val) => onSignatureChange('signer1', val)} name={name} />
-                  <SignatureCanvas label="전자서명 2" onSignatureChange={(val) => onSignatureChange('signer2', val)} />
-                  <SignatureCanvas label="전자서명 3" onSignatureChange={(val) => onSignatureChange('signer3', val)} />
+                  <SignatureCanvas label="전자서명 2" onSignatureChange={(val) => onSignatureChange('signer2', val)} name={name} />
+                  <SignatureCanvas label="전자서명 3" onSignatureChange={(val) => onSignatureChange('signer3', val)} name={name} />
                 </div>
 
                 {/* 푸터 */}
