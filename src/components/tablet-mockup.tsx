@@ -90,7 +90,7 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'linear-gradient(to bottom right, #ccdbff, #5788d7)', padding: '1rem' }}>
       {/* 타이틀 */}
       <div style={{ marginBottom: '1rem', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '2.25rem', fontWeight: 'bold', color: 'rgb(52, 52, 52)', marginBottom: '0.5rem' }}>တက်ဘလက် လက်မှတ်ထိုးခြင်း</h1>
+        <h1 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: 'rgb(52, 52, 52)', marginBottom: '0.5rem' }}>တက်ဘလက် လက်မှတ်ထိုးခြင်း</h1>
         <p style={{ color: '#fc5757' }}>ကိုယ်တိုင်လျှောက်ထား၊ ကိုယ်တိုင်လက်မှတ်ထိုး</p>
       </div>
 
