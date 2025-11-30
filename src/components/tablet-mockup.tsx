@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { SignatureCanvas } from './signature-canvas';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -23,6 +24,7 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
   const question3Ref = useRef<HTMLDivElement>(null);
   const question4Ref = useRef<HTMLDivElement>(null);
   const [name, setName] = useState('');
+  const [isLandscape, setIsLandscape] = useState(false);
   const [answers, setAnswers] = useState({
     question1: null as boolean | null,
     question2: null as boolean | null,
@@ -35,6 +37,22 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
     const value = e.target.value.toUpperCase().replace(/[^A-Z\s]/g, '');
     setName(value);
   };
+
+  // 가로/세로 모드 감지
+  useEffect(() => {
+    const checkOrientation = () => {
+      setIsLandscape(window.innerWidth > window.innerHeight);
+    };
+    
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', checkOrientation);
+    
+    return () => {
+      window.removeEventListener('resize', checkOrientation);
+      window.removeEventListener('orientationchange', checkOrientation);
+    };
+  }, []);
 
   const handleAnswerChange = (question: string, answer: boolean) => {
     setAnswers((prev) => ({
@@ -90,24 +108,72 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'linear-gradient(to bottom right, #ccdbff, #5788d7)', padding: '1rem' }}>
       {/* 타이틀 */}
       <div style={{ marginBottom: '1rem', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: 'rgb(52, 52, 52)', marginBottom: '0.5rem' }}>တက်ဘလက် လက်မှတ်ထိုးခြင်း</h1>
-        <p style={{ color: '#fc5757' }}>ကိုယ်တိုင်လျှောက်ထား၊ ကိုယ်တိုင်လက်မှတ်ထိုး</p>
+        <motion.h1
+          style={{
+            fontSize: '1.75rem',
+            fontWeight: 'bold',
+            color: '#ffffff',
+            marginBottom: '0.5rem',
+            textShadow: '2px 2px 8px rgba(0,0,0,0.3)',
+          }}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          {/* 글자별 애니메이션 */}
+          {'တက်ဘလက် လက်မှတ်ထိုးခြင်း'.split('').map((char, index) => (
+            <motion.span
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.3,
+                delay: index * 0.05,
+                repeat: Infinity,
+                repeatType: 'reverse',
+                repeatDelay: 3,
+              }}
+              style={{
+                display: 'inline-block',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              {char === ' ' ? '\u00A0' : char}
+            </motion.span>
+          ))}
+        </motion.h1>
+        <motion.p
+          style={{ 
+            color: '#fc5757',
+            fontWeight: 'bold',
+            fontSize: '1rem',
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.5 }}
+        >
+          ကိုယ်တိုင်လျှောက်ထား၊ ကိုယ်တိုင်လက်မှတ်ထိုး
+        </motion.p>
       </div>
 
       {/* 메인 컨테이너 - 태블릿 */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '3rem', marginBottom: '2rem' }}>
         {/* 태블릿 목업 */}
         <div ref={mockupRef} style={{ position: 'relative' }}>
-          {/* 외부 프레임 - 세로 방향 */}
+          {/* 외부 프레임 - 가로/세로 모드에 따라 변경 */}
           <div
             style={{
               background: 'linear-gradient(to bottom right, #111827, #1f2937, #111827)',
               borderRadius: '1.5rem',
-              width: '360px',
-              height: '600px',
+              width: isLandscape ? '600px' : '360px',
+              height: isLandscape ? '360px' : '600px',
               padding: '12px',
               boxShadow: '0 30px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.5)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
+              transition: 'width 0.3s, height 0.3s',
             }}
           >
             {/* 베젤 (검은색 테두리) */}
