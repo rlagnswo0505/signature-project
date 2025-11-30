@@ -43,11 +43,11 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
     const checkOrientation = () => {
       setIsLandscape(window.innerWidth > window.innerHeight);
     };
-    
+
     checkOrientation();
     window.addEventListener('resize', checkOrientation);
     window.addEventListener('orientationchange', checkOrientation);
-    
+
     return () => {
       window.removeEventListener('resize', checkOrientation);
       window.removeEventListener('orientationchange', checkOrientation);
@@ -131,7 +131,7 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
                 delay: index * 0.05,
                 repeat: Infinity,
                 repeatType: 'reverse',
-                repeatDelay: 3,
+                repeatDelay: 0.25,
               }}
               style={{
                 display: 'inline-block',
@@ -146,7 +146,7 @@ export function TabletMockup({ signatures, onSignatureChange, onCapture, isAllSi
           ))}
         </motion.h1>
         <motion.p
-          style={{ 
+          style={{
             color: '#fc5757',
             fontWeight: 'bold',
             fontSize: '1rem',
